@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    container_name: mysql5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      TZ: Asia/Shanghai
+    ports:
+      - 3306:3306
+    volumes:
+      - /Users/bob/docker-compose/mydata/mysql/db:/var/lib/mysql
+      - /Users/bob/docker-compose/mydata/mysql/log:/var/log/mysql
+      - /Users/bob/docker-compose/mydata/mysql/conf:/etc/mysql/conf.d
+    command:
+      --max_connections=100
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --default-authentication-plugin.   =mysql_native_password
+  redis:
+    image: redis:5
+    container_name: redis
+    command: redis-server --appendonly yes
+    volumes:
+      - /Users/bob/docker-compose/mydata/redis/data:/data #数据文件挂载
+    ports:
+      - 6379:6379
